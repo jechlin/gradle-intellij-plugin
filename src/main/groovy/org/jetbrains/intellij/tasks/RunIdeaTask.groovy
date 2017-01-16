@@ -1,5 +1,6 @@
 package org.jetbrains.intellij.tasks
 
+import groovy.json.JsonOutput
 import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.JavaExec
 import org.gradle.api.tasks.OutputDirectory
@@ -108,7 +109,23 @@ class RunIdeaTask extends JavaExec {
         configureClasspath()
         configureSystemProperties()
         configureJvmArgs()
-        super.exec()
+
+        def config = [
+            classpath       : getClasspath().asPath,
+            systemProperties: systemProperties,
+            jvmArgms        : jvmArgs,
+            workingDir      : workingDir.absolutePath,
+            mainClass       : getMain(),
+        ]
+
+        if (Boolean.getBoolean("delayed.load")) {
+            new File("config.json").withWriter { w ->
+                w.write(JsonOutput.toJson(config))
+            }
+        }
+        else {
+            super.exec()
+        }
     }
 
     private void configureClasspath() {

@@ -3,6 +3,7 @@ plugins {
     id 'synapticloop.documentr' version '1.3.4'
     id 'java-gradle-plugin'
     id 'maven'
+    id 'maven-publish'
 }
 
 apply plugin: 'groovy'
@@ -35,7 +36,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
-version = '0.2.1'
+version = '0.2.1-avst'
 group = 'org.jetbrains.intellij.plugins'
 description = """
 This plugin allows you to build plugins for IntelliJ platform using specific IntelliJ SDK and bundled plugins.
